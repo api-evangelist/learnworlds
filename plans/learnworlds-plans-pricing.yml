@@ -1,0 +1,167 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: LearnWorlds
+providerId: learnworlds
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Online Courses
+- LMS
+- eLearning
+- Education
+- Plans
+description: >-
+  LearnWorlds is sold as a SaaS course platform on published monthly tiers, not
+  as a metered API product. There is no separate charge for API calls; instead,
+  API and webhook access is a feature gated to the higher plan tiers. The plans
+  are Starter, Pro Trainer, Learning Center, and High Volume & Corporate. API &
+  Webhooks are included on Learning Center and High Volume & Corporate only.
+  Prices below are USD, exclude VAT, and reflect published pricing as of the
+  review date; the annual price is the effective per-month cost when billed
+  annually. All paid plans include a 30-day free trial.
+notes: >-
+  API access is NOT available on Starter or Pro Trainer. Verify current pricing
+  and plan feature gates on the LearnWorlds pricing page during reconciliation.
+  Payment-gateway fees (e.g. Stripe / PayPal ~2.9% + $0.30) are charged
+  separately by those providers.
+sources:
+- https://www.learnworlds.com/pricing/
+- https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+plans:
+- id: learnworlds-starter
+  name: Starter
+  type: paid
+  description: >-
+    Entry plan for individual creators. Does NOT include API or webhook access.
+    Carries a per-course-enrollment transaction fee.
+  entries:
+  - label: Monthly (billed monthly)
+    name: starter_monthly
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '29.00'
+    currency: USD
+    userMultiplied: false
+  - label: Monthly (billed annually)
+    name: starter_annual
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '24.00'
+    currency: USD
+    userMultiplied: false
+  - label: Per-Enrollment Fee
+    name: starter_enrollment_fee
+    type: usage
+    metric: enrollments
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '5.00'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Build and Sell Courses
+  - name: No API Access
+  - name: No Webhook Access
+- id: learnworlds-pro-trainer
+  name: Pro Trainer
+  type: paid
+  description: >-
+    Popular mid-tier plan with no transaction fees. Does NOT include API or
+    webhook access as a standard feature.
+  entries:
+  - label: Monthly (billed monthly)
+    name: pro_monthly
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '99.00'
+    currency: USD
+    userMultiplied: false
+  - label: Monthly (billed annually)
+    name: pro_annual
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '79.00'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: No Transaction Fees
+  - name: Unlimited Courses
+  - name: No API Access
+- id: learnworlds-learning-center
+  name: Learning Center
+  type: paid
+  description: >-
+    Higher tier that unlocks API & Webhooks. This is the entry point for
+    programmatic access to the LearnWorlds API.
+  entries:
+  - label: Monthly (billed monthly)
+    name: lc_monthly
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '299.00'
+    currency: USD
+    userMultiplied: false
+  - label: Monthly (billed annually)
+    name: lc_annual
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '249.00'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: API and Webhooks
+  - name: No Transaction Fees
+  - name: Advanced Features
+- id: learnworlds-high-volume
+  name: High Volume & Corporate
+  type: enterprise
+  description: >-
+    Custom-priced plan for high-volume and corporate deployments. Includes
+    everything in Learning Center plus additional enterprise features, with API
+    & Webhooks access.
+  entries:
+  - label: Enterprise Agreement
+    name: high_volume
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: API and Webhooks
+  - name: Custom Volume
+  - name: Enterprise Support and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

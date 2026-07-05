@@ -1,0 +1,91 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: LearnWorlds
+providerId: learnworlds
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Online Courses
+- LMS
+- eLearning
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of LearnWorlds spend. LearnWorlds is a flat-rate SaaS course
+  platform billed on monthly (or annually discounted) plan tiers - Starter, Pro
+  Trainer, Learning Center, and High Volume & Corporate - not a metered API
+  product. There is no per-API-call charge; API and webhook access is a feature
+  gated to the Learning Center and High Volume & Corporate tiers, so the API
+  cost is effectively the price step up to a plan that includes it. The Starter
+  plan adds a $5 per-course-enrollment transaction fee. Payment-gateway
+  processing fees (Stripe / PayPal) are billed separately by those providers.
+notes: >-
+  Because pricing is plan-based rather than usage-based, cost optimization is
+  primarily about choosing the right plan tier and billing cadence (annual saves
+  roughly 17-20%) rather than tuning API call volume. Verify current plan prices
+  and gateway fees on the LearnWorlds pricing page during reconciliation.
+sources:
+- https://www.learnworlds.com/pricing/
+- https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: LearnWorlds
+serviceCategory: Education and Learning Management
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+focusColumns:
+  ServiceName: LearnWorlds
+  ServiceCategory: Education and Learning Management
+  ProviderName: LearnWorlds
+  PublisherName: LearnWorlds
+  InvoiceIssuerName: LearnWorlds
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: plan_subscription
+  description: Flat monthly (or annual) plan fee for the chosen tier.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: enrollment_fee
+  description: Per-course-enrollment transaction fee (Starter plan only), $5 per enrollment.
+  unit: enrollments
+  aggregation: sum
+  dimensions:
+  - account
+  - course
+- name: gateway_fee
+  description: Third-party payment-gateway processing fees (Stripe / PayPal), billed by the gateway, not LearnWorlds.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - account
+  - gateway
+principles:
+- name: Visibility
+  description: Track the fixed plan cost and, on Starter, per-enrollment fees; separate LearnWorlds charges from payment-gateway fees.
+- name: Allocation
+  description: Attribute the single platform subscription across the products / teams that use the school.
+- name: Optimization
+  description: Right-size the plan tier (only step up to Learning Center when API & webhooks or its advanced features are actually needed) and choose annual billing to save ~17-20%.
+- name: Accountability
+  description: Assign an owner for the LearnWorlds subscription and review plan tier against actual feature usage each renewal.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

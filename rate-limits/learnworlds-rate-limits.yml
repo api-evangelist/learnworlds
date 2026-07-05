@@ -1,0 +1,51 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: LearnWorlds
+providerId: learnworlds
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Online Courses
+- LMS
+- eLearning
+- Rate Limiting
+- Quotas
+description: >-
+  The LearnWorlds API applies a request-rate limit of approximately 30 requests
+  per 10 seconds. Requests that exceed the limit are throttled and should be
+  retried with backoff. Rate limiting is applied per school / client. Webhook
+  delivery (outbound from LearnWorlds) follows a separate retry policy rather
+  than a request-rate cap.
+notes: >-
+  The commonly documented figure is 30 requests / 10 seconds. Confirm the
+  current numeric limit and any per-endpoint variations against the live
+  reference at learnworlds.dev during reconciliation.
+sources:
+- https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+- https://www.learnworlds.dev/docs/api
+- https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: client
+  metric: requests
+  limit: 30 per 10 seconds
+  notes: Documented request-rate limit for the LearnWorlds REST API v2.
+- name: Webhook Delivery Retries
+  scope: webhook
+  metric: retries
+  limit: up to 20 retries
+  notes: Failed webhook deliveries are retried up to 20 times with doubling backoff (1m, 2m, 4m, ...), not a request-rate limit.
+policies:
+- name: Throttling
+  description: Requests over the rate limit return HTTP 429; clients should back off and retry.
+- name: Backoff Strategy
+  description: Implement exponential backoff with jitter and honor any Retry-After hint on 429 responses.
+- name: Webhook Retry
+  description: Outbound webhook deliveries that do not receive a successful response are retried up to 20 times with doubling delay between attempts.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LearnWorlds API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{accessToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Authentication", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get access token (client credentials).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://yourschool.learnworlds.com/admin/api/oauth2/access_token",
+            "headers": [
+              { "name": "Content-Type", "value": "application/x-www-form-urlencoded" },
+              { "name": "Lw-Client", "value": "{{clientId}}" }
+            ],
+            "body": { "type": "text", "data": "client_id={{clientId}}&client_secret=YOUR_CLIENT_SECRET&grant_type=client_credentials" }
+          },
+          "docs": "Exchanges client_id and client_secret for a bearer access token at the per-school token endpoint."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List users.", "type": "http" },
+          "http": { "method": "GET", "url": "https://yourschool.learnworlds.com/admin/api/v2/users" },
+          "docs": "Lists the school's users."
+        },
+        {
+          "info": { "name": "Create a user.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users",
+            "body": { "type": "json", "data": "{\"email\":\"student@example.com\"}" }
+          },
+          "docs": "Creates a new user in the school."
+        },
+        {
+          "info": { "name": "Get a user.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id or email." }
+            ]
+          },
+          "docs": "Retrieves a single user by ID or email."
+        },
+        {
+          "info": { "name": "Update a user.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id or email." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an existing user's profile fields."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Courses", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List courses.", "type": "http" },
+          "http": { "method": "GET", "url": "https://yourschool.learnworlds.com/admin/api/v2/courses" },
+          "docs": "Lists the school's courses."
+        },
+        {
+          "info": { "name": "Get a course.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/courses/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The course identifier." }
+            ]
+          },
+          "docs": "Retrieves a single course by its identifier."
+        },
+        {
+          "info": { "name": "Get course contents.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/courses/:id/contents",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The course identifier." }
+            ]
+          },
+          "docs": "Retrieves the sections and learning units of a course."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Enrollments", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Enroll a user.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/enrollment",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ],
+            "body": { "type": "json", "data": "{\"productId\":\"course_123\",\"productType\":\"course\"}" }
+          },
+          "docs": "Enrolls a user on a course, bundle, or subscription."
+        },
+        {
+          "info": { "name": "Unenroll a user.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/enrollment",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ],
+            "body": { "type": "json", "data": "{\"productId\":\"course_123\",\"productType\":\"course\"}" }
+          },
+          "docs": "Removes a user's enrollment from a product."
+        },
+        {
+          "info": { "name": "List a user's enrollments.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/enrollments",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ]
+          },
+          "docs": "Lists all products a user is enrolled in."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Progress", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get a user's progress.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/progress",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ]
+          },
+          "docs": "Returns the user's progress and completion status across enrolled courses."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Tags", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Attach tags to a user.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/tags",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ],
+            "body": { "type": "json", "data": "{\"tags\":[\"vip\"]}" }
+          },
+          "docs": "Attaches one or more tags to a user."
+        },
+        {
+          "info": { "name": "Detach tags from a user.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/users/:id/tags",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The user id." }
+            ],
+            "body": { "type": "json", "data": "{\"tags\":[\"vip\"]}" }
+          },
+          "docs": "Detaches one or more tags from a user."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Payments", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List payments.", "type": "http" },
+          "http": { "method": "GET", "url": "https://yourschool.learnworlds.com/admin/api/v2/payments" },
+          "docs": "Lists payment transactions for the school."
+        },
+        {
+          "info": { "name": "List subscriptions.", "type": "http" },
+          "http": { "method": "GET", "url": "https://yourschool.learnworlds.com/admin/api/v2/subscriptions" },
+          "docs": "Lists the school's subscriptions."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List webhooks.", "type": "http" },
+          "http": { "method": "GET", "url": "https://yourschool.learnworlds.com/admin/api/v2/webhooks" },
+          "docs": "Lists configured webhook subscriptions."
+        },
+        {
+          "info": { "name": "Create a webhook.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/webhooks",
+            "body": { "type": "json", "data": "{\"endpoint\":\"https://example.com/hooks/learnworlds\",\"triggers\":[\"course.completed\"]}" }
+          },
+          "docs": "Creates a webhook subscription."
+        },
+        {
+          "info": { "name": "Delete a webhook.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://yourschool.learnworlds.com/admin/api/v2/webhooks/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The webhook identifier." }
+            ]
+          },
+          "docs": "Deletes a webhook subscription."
+        }
+      ]
+    }
+  ]
+}

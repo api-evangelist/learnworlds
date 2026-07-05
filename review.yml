@@ -1,0 +1,113 @@
+aid: learnworlds
+name: LearnWorlds
+review:
+  question: Does LearnWorlds expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-05'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. LearnWorlds' public API surface is a
+    request/response REST API (v2) served per-school over HTTPS. Its real-time
+    delivery mechanism is outbound webhooks - LearnWorlds POSTs signed event
+    payloads to a subscriber-provided URL - which is server-to-endpoint HTTP,
+    not a client-facing server-push transport (WebSocket or SSE) on
+    LearnWorlds' own API. There is no ws:// or wss:// endpoint and no SSE
+    stream on the LearnWorlds API to model.
+findings:
+  summary: |
+    LearnWorlds does not publish a documented public WebSocket API. LearnWorlds
+    is an online course / LMS platform. Its programmatic surface is a REST API
+    (v2) served from each school's own subdomain at
+    https://{school}.learnworlds.com/admin/api/v2, authenticated with OAuth2
+    client credentials (a bearer access token) plus an Lw-Client header. The
+    API is pure request/response REST over HTTPS covering users, courses,
+    enrollments, subscriptions, payments, progress, tags, bundles, and
+    certificates. Real-time behavior is delivered by outbound webhooks that
+    POST signed event payloads to a subscriber URL (with a
+    Learnworlds-Webhook-Signature header and a retry/backoff policy). No
+    realtime, bidirectional, or streaming WebSocket (ws:// or wss://) endpoint
+    is documented anywhere on the LearnWorlds API as of the review date.
+  accessModel: |
+    API and webhook access is plan-gated. Programmatic access requires the
+    Learning Center or High Volume & Corporate plan; the Starter and Pro
+    Trainer plans do not include API access as standard. Credentials
+    (client_id / client_secret) are requested from the school admin under
+    Settings -> Developers -> API. API version 1 is deprecated; only v2 is
+    supported.
+  grounding: |
+    The full LearnWorlds API reference is published as a JavaScript-rendered
+    Stoplight portal at learnworlds.dev, which is not directly
+    machine-readable. Endpoints were grounded via the LearnWorlds help center,
+    the official developer documentation, the webhooks documentation, and the
+    official API wrapper. Exact paths and payload schemas should be reconciled
+    against the live reference.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://{school}.learnworlds.com/admin/api/v2
+      documented: true
+      note: Per-school REST API v2. OAuth2 client-credentials bearer token plus Lw-Client header.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: LearnWorlds POSTs signed event payloads (Learnworlds-Webhook-Signature) to a subscriber URL, with retries. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the LearnWorlds API or webhook reference as of the review date.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events stream is documented on the LearnWorlds API.
+  endpointsConfirmedRest:
+    - GET    https://{school}.learnworlds.com/admin/api/v2/users
+    - POST   https://{school}.learnworlds.com/admin/api/v2/users
+    - GET    https://{school}.learnworlds.com/admin/api/v2/users/{id}
+    - PUT    https://{school}.learnworlds.com/admin/api/v2/users/{id}
+    - GET    https://{school}.learnworlds.com/admin/api/v2/users/{id}/enrollments
+    - POST   https://{school}.learnworlds.com/admin/api/v2/users/{id}/enrollment
+    - DELETE https://{school}.learnworlds.com/admin/api/v2/users/{id}/enrollment
+    - GET    https://{school}.learnworlds.com/admin/api/v2/users/{id}/progress
+    - POST   https://{school}.learnworlds.com/admin/api/v2/users/{id}/tags
+    - DELETE https://{school}.learnworlds.com/admin/api/v2/users/{id}/tags
+    - GET    https://{school}.learnworlds.com/admin/api/v2/courses
+    - GET    https://{school}.learnworlds.com/admin/api/v2/courses/{id}
+    - GET    https://{school}.learnworlds.com/admin/api/v2/courses/{id}/contents
+    - GET    https://{school}.learnworlds.com/admin/api/v2/payments
+    - GET    https://{school}.learnworlds.com/admin/api/v2/subscriptions
+    - GET    https://{school}.learnworlds.com/admin/api/v2/webhooks
+    - POST   https://{school}.learnworlds.com/admin/api/v2/webhooks
+    - DELETE https://{school}.learnworlds.com/admin/api/v2/webhooks/{id}
+  tokenEndpoint: https://{school}.learnworlds.com/admin/api/oauth2/access_token
+sources:
+  - url: https://www.learnworlds.dev/docs/api
+    type: APIReference
+    note: Official developer reference (JavaScript-rendered Stoplight portal). REST v2; no WebSocket mentioned.
+  - url: https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+    type: Documentation
+    note: Help center API overview - per-school base URL, OAuth2, plan gating, v1 deprecated.
+  - url: https://support.learnworlds.com/support/solutions/articles/12000080177-how-to-request-your-api-keys-and-access-tokens
+    type: Documentation
+    note: How to request client_id / client_secret and access tokens; Settings -> Developers -> API.
+  - url: https://www.learnworlds.dev/docs/api/webhooks
+    type: Documentation
+    note: Webhook events and delivery; signed with Learnworlds-Webhook-Signature; outbound HTTP POST, not WebSocket.
+  - url: https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
+    type: Documentation
+    note: Webhook retry policy (up to 20 retries, doubling backoff) and signature header.
+  - url: https://www.learnworlds.com/pricing/
+    type: Documentation
+    note: Plan tiers; API & Webhooks gated to Learning Center and High Volume & Corporate plans.
+  - url: https://github.com/whitesmith/learnworlds
+    type: SourceCode
+    note: Official API wrapper - grounds users, enrollments, and tag endpoint shapes.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. LearnWorlds' own public API is
+    request/response REST (v2), and its real-time delivery is outbound
+    webhooks (server-to-endpoint HTTP POST), not a client-facing WebSocket or
+    SSE transport. No AsyncAPI document was created because there is no
+    server-push streaming transport on LearnWorlds' own API to model.

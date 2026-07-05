@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "LearnWorlds API",
+    "description": "REST API (v2) for a LearnWorlds online school. Base URL is per-school: https://{{school}}.learnworlds.com/admin/api/v2. Authenticated with OAuth2 client credentials (bearer access token) plus an Lw-Client header carrying your client_id. API & Webhook access requires the Learning Center or High Volume & Corporate plan.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "school", "value": "yourschool", "type": "string" },
+    { "key": "baseUrl", "value": "https://{{school}}.learnworlds.com/admin/api/v2", "type": "string" },
+    { "key": "clientId", "value": "", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get access token (client credentials)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" },
+              { "key": "Lw-Client", "value": "{{clientId}}" }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "client_id", "value": "{{clientId}}" },
+                { "key": "client_secret", "value": "" },
+                { "key": "grant_type", "value": "client_credentials" }
+              ]
+            },
+            "url": {
+              "raw": "https://{{school}}.learnworlds.com/admin/api/oauth2/access_token",
+              "protocol": "https",
+              "host": ["{{school}}", "learnworlds", "com"],
+              "path": ["admin", "api", "oauth2", "access_token"]
+            },
+            "description": "Exchanges client_id and client_secret for a bearer access token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/users?page=1&items_per_page=50", "host": ["{{baseUrl}}"], "path": ["users"], "query": [{ "key": "page", "value": "1" }, { "key": "items_per_page", "value": "50" }] },
+            "description": "Lists the school's users."
+          }
+        },
+        {
+          "name": "Create a user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"student@example.com\",\n  \"username\": \"student\",\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Doe\"\n}" },
+            "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] },
+            "description": "Creates a new user in the school."
+          }
+        },
+        {
+          "name": "Get a user",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/users/:id", "host": ["{{baseUrl}}"], "path": ["users", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single user by ID or email."
+          }
+        },
+        {
+          "name": "Update a user",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Janet\"\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:id", "host": ["{{baseUrl}}"], "path": ["users", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates an existing user's profile fields."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "List courses",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/courses?page=1&items_per_page=50", "host": ["{{baseUrl}}"], "path": ["courses"], "query": [{ "key": "page", "value": "1" }, { "key": "items_per_page", "value": "50" }] },
+            "description": "Lists the school's courses."
+          }
+        },
+        {
+          "name": "Get a course",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/courses/:id", "host": ["{{baseUrl}}"], "path": ["courses", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single course by its identifier."
+          }
+        },
+        {
+          "name": "Get course contents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/courses/:id/contents", "host": ["{{baseUrl}}"], "path": ["courses", ":id", "contents"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves the sections and learning units of a course."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enrollments",
+      "item": [
+        {
+          "name": "Enroll a user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": \"course_123\",\n  \"productType\": \"course\",\n  \"send_enrollment_email\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:id/enrollment", "host": ["{{baseUrl}}"], "path": ["users", ":id", "enrollment"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Enrolls a user on a course, bundle, or subscription."
+          }
+        },
+        {
+          "name": "Unenroll a user",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"productId\": \"course_123\",\n  \"productType\": \"course\"\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:id/enrollment", "host": ["{{baseUrl}}"], "path": ["users", ":id", "enrollment"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes a user's enrollment from a product."
+          }
+        },
+        {
+          "name": "List a user's enrollments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/users/:id/enrollments", "host": ["{{baseUrl}}"], "path": ["users", ":id", "enrollments"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists all products a user is enrolled in."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Progress",
+      "item": [
+        {
+          "name": "Get a user's progress",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/users/:id/progress", "host": ["{{baseUrl}}"], "path": ["users", ":id", "progress"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Returns the user's progress and completion status across enrolled courses."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "Attach tags to a user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"tags\": [\"vip\", \"cohort-2026\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:id/tags", "host": ["{{baseUrl}}"], "path": ["users", ":id", "tags"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Attaches one or more tags to a user."
+          }
+        },
+        {
+          "name": "Detach tags from a user",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"tags\": [\"vip\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/users/:id/tags", "host": ["{{baseUrl}}"], "path": ["users", ":id", "tags"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Detaches one or more tags from a user."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "List payments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/payments?page=1&items_per_page=50", "host": ["{{baseUrl}}"], "path": ["payments"], "query": [{ "key": "page", "value": "1" }, { "key": "items_per_page", "value": "50" }] },
+            "description": "Lists payment transactions for the school."
+          }
+        },
+        {
+          "name": "List subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/subscriptions?page=1&items_per_page=50", "host": ["{{baseUrl}}"], "path": ["subscriptions"], "query": [{ "key": "page", "value": "1" }, { "key": "items_per_page", "value": "50" }] },
+            "description": "Lists the school's subscriptions."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "List webhooks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Lists configured webhook subscriptions."
+          }
+        },
+        {
+          "name": "Create a webhook",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Lw-Client", "value": "{{clientId}}" }],
+            "body": { "mode": "raw", "raw": "{\n  \"endpoint\": \"https://example.com/hooks/learnworlds\",\n  \"triggers\": [\"course.completed\", \"user.enrolled\", \"payment.created\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Creates a webhook subscription."
+          }
+        },
+        {
+          "name": "Delete a webhook",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Lw-Client", "value": "{{clientId}}" }],
+            "url": { "raw": "{{baseUrl}}/webhooks/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Deletes a webhook subscription."
+          }
+        }
+      ]
+    }
+  ]
+}
