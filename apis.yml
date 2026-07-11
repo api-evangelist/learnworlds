@@ -148,6 +148,10 @@ apis:
     Payloads are signed with a Learnworlds-Webhook-Signature header and retried on
     failure.
 common:
+- type: DomainSecurity
+  url: security/learnworlds-domain-security.yml
+- type: Authentication
+  url: authentication/learnworlds-authentication.yml
 - type: OAuthScopes
   url: scopes/learnworlds-scopes.yml
 - type: LinkedIn

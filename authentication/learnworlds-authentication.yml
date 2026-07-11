@@ -1,0 +1,31 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/learnworlds-openapi.yml
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: oauth2ClientCredentials
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+    scopes: 0
+  description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for
+    a bearer access token at the school token endpoint, then pass it as Authorization: Bearer
+    ACCESS_TOKEN.'
+  sources:
+  - openapi/learnworlds-openapi.yml
+- name: lwClient
+  type: apiKey
+  in: header
+  parameter: Lw-Client
+  description: Client identifier header sent on every request alongside the bearer token. Its
+    value is your API client_id.
+  sources:
+  - openapi/learnworlds-openapi.yml
