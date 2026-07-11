@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/learnworlds-openapi.yml
+docs: https://www.learnworlds.dev/docs/api/b6b6c2d4906e9-authentication
+note: LearnWorlds API uses the OAuth2 client credentials grant (plus an Lw-Client
+  header) and does not publish or use OAuth scopes; access is governed by school
+  plan and API credentials (see https://www.learnworlds.dev/docs/api/b6b6c2d4906e9-authentication).
+schemes:
+- name: oauth2ClientCredentials
+  source: openapi/learnworlds-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+  description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for
+    a bearer access token at the school token endpoint, then pass it as Authorization: Bearer
+    ACCESS_TOKEN.'
+scopes: []
