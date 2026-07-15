@@ -148,6 +148,8 @@ apis:
     Payloads are signed with a Learnworlds-Webhook-Signature header and retried on
     failure.
 common:
+- type: AgenticAccess
+  url: agentic-access/learnworlds-agentic-access.yml
 - type: DomainSecurity
   url: security/learnworlds-domain-security.yml
 - type: Authentication
