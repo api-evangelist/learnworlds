@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: LearnWorlds Courses Webhooks API
+  description: 'The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school''s token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.'
+  version: '2.0'
+  contact:
+    name: LearnWorlds
+    url: https://www.learnworlds.dev
+  license:
+    name: Proprietary
+    url: https://www.learnworlds.com/terms-of-service/
+servers:
+- url: https://{school}.learnworlds.com/admin/api/v2
+  description: Per-school API base URL
+  variables:
+    school:
+      default: yourschool
+      description: The subdomain / school identifier of your LearnWorlds academy.
+security:
+- oauth2ClientCredentials: []
+  lwClient: []
+tags:
+- name: Webhooks
+  description: Manage webhook subscriptions for school events.
+paths:
+  /webhooks:
+    get:
+      operationId: listWebhooks
+      tags:
+      - Webhooks
+      summary: List webhooks
+      description: Lists the configured webhook subscriptions for the school.
+      responses:
+        '200':
+          description: A list of webhooks.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhook
+      tags:
+      - Webhooks
+      summary: Create a webhook
+      description: Creates a webhook subscription that POSTs event payloads to a target URL when the subscribed event fires (for example course.completed, user.enrolled, payment.created).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookInput'
+      responses:
+        '201':
+          description: The created webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /webhooks/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The webhook identifier.
+      schema:
+        type: string
+    delete:
+      operationId: deleteWebhook
+      tags:
+      - Webhooks
+      summary: Delete a webhook
+      description: Deletes a webhook subscription.
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Webhook:
+      allOf:
+      - $ref: '#/components/schemas/WebhookInput'
+      - type: object
+        properties:
+          id:
+            type: string
+          active:
+            type: boolean
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+    WebhookInput:
+      type: object
+      required:
+      - endpoint
+      - triggers
+      properties:
+        endpoint:
+          type: string
+          format: uri
+          description: The URL LearnWorlds POSTs event payloads to.
+        triggers:
+          type: array
+          description: The event types this webhook subscribes to.
+          items:
+            type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    oauth2ClientCredentials:
+      type: oauth2
+      description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for a bearer access token at the school token endpoint, then pass it as Authorization: Bearer ACCESS_TOKEN.'
+      flows:
+        clientCredentials:
+          tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+          scopes: {}
+    lwClient:
+      type: apiKey
+      in: header
+      name: Lw-Client
+      description: Client identifier header sent on every request alongside the bearer token. Its value is your API client_id.

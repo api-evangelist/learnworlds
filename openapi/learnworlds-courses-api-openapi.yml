@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: LearnWorlds Courses API
+  description: 'The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school''s token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.'
+  version: '2.0'
+  contact:
+    name: LearnWorlds
+    url: https://www.learnworlds.dev
+  license:
+    name: Proprietary
+    url: https://www.learnworlds.com/terms-of-service/
+servers:
+- url: https://{school}.learnworlds.com/admin/api/v2
+  description: Per-school API base URL
+  variables:
+    school:
+      default: yourschool
+      description: The subdomain / school identifier of your LearnWorlds academy.
+security:
+- oauth2ClientCredentials: []
+  lwClient: []
+tags:
+- name: Courses
+  description: Read the school's courses and their contents.
+paths:
+  /courses:
+    get:
+      operationId: listCourses
+      tags:
+      - Courses
+      summary: List courses
+      description: Lists the school's courses.
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/ItemsPerPage'
+      responses:
+        '200':
+          description: A paginated list of courses.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /courses/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The course identifier.
+      schema:
+        type: string
+    get:
+      operationId: getCourse
+      tags:
+      - Courses
+      summary: Get a course
+      description: Retrieves a single course by its identifier.
+      responses:
+        '200':
+          description: The requested course.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /courses/{id}/contents:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The course identifier.
+      schema:
+        type: string
+    get:
+      operationId: getCourseContents
+      tags:
+      - Courses
+      summary: Get course contents
+      description: Retrieves the sections and learning units that make up a course.
+      responses:
+        '200':
+          description: The course contents.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        access:
+          type: string
+          description: Access model for the course (free, paid, subscription, etc).
+        price:
+          type: number
+        courseImage:
+          type: string
+        created:
+          type: integer
+    CourseList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+  parameters:
+    ItemsPerPage:
+      name: items_per_page
+      in: query
+      required: false
+      description: The number of items to return per page.
+      schema:
+        type: integer
+        default: 50
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve.
+      schema:
+        type: integer
+        default: 1
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    oauth2ClientCredentials:
+      type: oauth2
+      description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for a bearer access token at the school token endpoint, then pass it as Authorization: Bearer ACCESS_TOKEN.'
+      flows:
+        clientCredentials:
+          tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+          scopes: {}
+    lwClient:
+      type: apiKey
+      in: header
+      name: Lw-Client
+      description: Client identifier header sent on every request alongside the bearer token. Its value is your API client_id.

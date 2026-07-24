@@ -1,0 +1,140 @@
+openapi: 3.0.3
+info:
+  title: LearnWorlds Courses Tags API
+  description: 'The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school''s token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.'
+  version: '2.0'
+  contact:
+    name: LearnWorlds
+    url: https://www.learnworlds.dev
+  license:
+    name: Proprietary
+    url: https://www.learnworlds.com/terms-of-service/
+servers:
+- url: https://{school}.learnworlds.com/admin/api/v2
+  description: Per-school API base URL
+  variables:
+    school:
+      default: yourschool
+      description: The subdomain / school identifier of your LearnWorlds academy.
+security:
+- oauth2ClientCredentials: []
+  lwClient: []
+tags:
+- name: Tags
+  description: List tags and attach / detach them from users.
+paths:
+  /users/{id}/tags:
+    parameters:
+    - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: attachUserTags
+      tags:
+      - Tags
+      summary: Attach tags to a user
+      description: Attaches one or more tags to a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagInput'
+      responses:
+        '200':
+          description: The user's updated tags.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: detachUserTags
+      tags:
+      - Tags
+      summary: Detach tags from a user
+      description: Detaches one or more tags from a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagInput'
+      responses:
+        '200':
+          description: Detach confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    TagInput:
+      type: object
+      required:
+      - tags
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    oauth2ClientCredentials:
+      type: oauth2
+      description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for a bearer access token at the school token endpoint, then pass it as Authorization: Bearer ACCESS_TOKEN.'
+      flows:
+        clientCredentials:
+          tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+          scopes: {}
+    lwClient:
+      type: apiKey
+      in: header
+      name: Lw-Client
+      description: Client identifier header sent on every request alongside the bearer token. Its value is your API client_id.

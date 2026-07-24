@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: LearnWorlds Courses Enrollments API
+  description: 'The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school''s token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.'
+  version: '2.0'
+  contact:
+    name: LearnWorlds
+    url: https://www.learnworlds.dev
+  license:
+    name: Proprietary
+    url: https://www.learnworlds.com/terms-of-service/
+servers:
+- url: https://{school}.learnworlds.com/admin/api/v2
+  description: Per-school API base URL
+  variables:
+    school:
+      default: yourschool
+      description: The subdomain / school identifier of your LearnWorlds academy.
+security:
+- oauth2ClientCredentials: []
+  lwClient: []
+tags:
+- name: Enrollments
+  description: Enroll and unenroll users on courses, bundles, and subscriptions.
+paths:
+  /users/{id}/enrollment:
+    parameters:
+    - $ref: '#/components/parameters/UserId'
+    post:
+      operationId: enrollUser
+      tags:
+      - Enrollments
+      summary: Enroll a user
+      description: Enrolls a user on a product - a course, bundle, or subscription. The product type and id are supplied in the request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollmentInput'
+      responses:
+        '200':
+          description: Enrollment result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      operationId: unenrollUser
+      tags:
+      - Enrollments
+      summary: Unenroll a user
+      description: Removes a user's enrollment from a product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollmentInput'
+      responses:
+        '200':
+          description: Unenrollment confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericSuccess'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /users/{id}/enrollments:
+    parameters:
+    - $ref: '#/components/parameters/UserId'
+    get:
+      operationId: listUserEnrollments
+      tags:
+      - Enrollments
+      summary: List a user's enrollments
+      description: Lists all products (courses, bundles, subscriptions) a user is enrolled in.
+      responses:
+        '200':
+          description: A list of the user's enrollments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    EnrollmentInput:
+      type: object
+      required:
+      - productId
+      - productType
+      properties:
+        productId:
+          type: string
+          description: The id of the course, bundle, or subscription plan.
+        productType:
+          type: string
+          enum:
+          - course
+          - bundle
+          - subscription
+        price:
+          type: number
+          description: Optional price to record for the enrollment.
+        justification:
+          type: string
+          description: Optional reason recorded for the manual enrollment.
+        send_enrollment_email:
+          type: boolean
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+    Enrollment:
+      type: object
+      properties:
+        productId:
+          type: string
+        productType:
+          type: string
+        user_id:
+          type: string
+        enrolled:
+          type: boolean
+        created:
+          type: integer
+    EnrollmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enrollment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    oauth2ClientCredentials:
+      type: oauth2
+      description: 'OAuth2 client credentials flow. Exchange your client_id and client_secret for a bearer access token at the school token endpoint, then pass it as Authorization: Bearer ACCESS_TOKEN.'
+      flows:
+        clientCredentials:
+          tokenUrl: https://yourschool.learnworlds.com/admin/api/oauth2/access_token
+          scopes: {}
+    lwClient:
+      type: apiKey
+      in: header
+      name: Lw-Client
+      description: Client identifier header sent on every request alongside the bearer token. Its value is your API client_id.
