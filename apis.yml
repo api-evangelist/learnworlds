@@ -11,7 +11,20 @@ description: LearnWorlds is an online course and learning management (LMS) platf
   OAuth2 client credentials (a bearer access token) together with an Lw-Client header
   identifying the client application. API and webhook access is a plan-gated feature
   available on the Learning Center and High Volume & Corporate plans.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: true
+  try_now: true
+  public: false
+  label: Paid (free trial) · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/learnworlds.png
 tags:
 - Online Courses
 - LMS
@@ -23,130 +36,146 @@ created: '2026-07-05'
 modified: '2026-07-05'
 specificationVersion: '0.19'
 apis:
-- aid: learnworlds:learnworlds-users-api
-  name: LearnWorlds Users API
-  tags:
-  - Users
-  - Students
-  - Members
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
-  properties:
-  - url: https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
-    type: Documentation
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Create, read, update, and list school users (students / members),
-    manage their profile fields, and attach or detach tags. Users are the core
-    identity entity that enrollments, progress, and payments are scoped to.
 - aid: learnworlds:learnworlds-courses-api
   name: LearnWorlds Courses API
+  description: Read the school's courses and their contents.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
   - Courses
-  - Content
-  - Products
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
   properties:
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: List the school's courses, retrieve a single course, and read a
-    course's sections and learning units. Courses are the primary sellable product
-    in a LearnWorlds school.
+  - type: OpenAPI
+    url: openapi/learnworlds-courses-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 - aid: learnworlds:learnworlds-enrollments-api
   name: LearnWorlds Enrollments API
+  description: Enroll and unenroll users on courses, bundles, and subscriptions.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
   - Enrollments
-  - Access
-  - Bundles
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
   properties:
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Enroll and unenroll users on products - courses, bundles, and
-    subscriptions - and list a user's current enrollments. Supports recording a
-    price and justification for manual enrollments.
+  - type: OpenAPI
+    url: openapi/learnworlds-enrollments-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 - aid: learnworlds:learnworlds-payments-api
   name: LearnWorlds Payments API
+  description: Read payments, subscriptions, and transactions.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
   - Payments
-  - Subscriptions
-  - Transactions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
   properties:
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Read payment transactions and subscriptions for the school. A payment
-    can include multiple products (cart orders and bundle purchases); subscriptions
-    carry status and billing-period detail.
+  - type: OpenAPI
+    url: openapi/learnworlds-payments-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 - aid: learnworlds:learnworlds-progress-api
   name: LearnWorlds Progress API
+  description: Read per-user course progress and completion.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
   - Progress
-  - Completion
-  - Reporting
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
   properties:
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Read per-user course progress and completion status across the courses
-    a user is enrolled in, for reporting and downstream analytics.
+  - type: OpenAPI
+    url: openapi/learnworlds-progress-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 - aid: learnworlds:learnworlds-tags-api
   name: LearnWorlds Tags API
-  tags:
-  - Tags
-  - Segmentation
-  - Users
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  description: List tags and attach / detach them from users.
   humanURL: https://www.learnworlds.dev/docs/api
   baseURL: https://{school}.learnworlds.com/admin/api/v2
+  tags:
+  - Tags
   properties:
-  - url: https://www.learnworlds.dev/docs/api
-    type: APIReference
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Attach and detach tags on users to segment audiences for automations,
-    reporting, and targeted access. Tags are a lightweight labeling primitive across
-    the school.
+  - type: OpenAPI
+    url: openapi/learnworlds-tags-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
+- aid: learnworlds:learnworlds-users-api
+  name: LearnWorlds Users API
+  description: Manage school users (students / members) and their profiles.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/learnworlds-users-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 - aid: learnworlds:learnworlds-webhooks-api
   name: LearnWorlds Webhooks API
+  description: Manage webhook subscriptions for school events.
+  humanURL: https://www.learnworlds.dev/docs/api
+  baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
   - Webhooks
-  - Events
-  - Automation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.learnworlds.dev/docs/api/webhooks
-  baseURL: https://{school}.learnworlds.com/admin/api/v2
   properties:
-  - url: https://www.learnworlds.dev/docs/api/webhooks
-    type: Documentation
-  - url: https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
-    type: Documentation
-  - url: openapi/learnworlds-openapi.yml
-    type: OpenAPI
-  description: Create, list, and delete webhook subscriptions that POST event
-    payloads (user registration, enrollment, course completion, certificate awarded,
-    payment created, subscription events, tag changes, and more) to a target URL.
-    Payloads are signed with a Learnworlds-Webhook-Signature header and retried on
-    failure.
+  - type: OpenAPI
+    url: openapi/learnworlds-webhooks-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+  - type: APIReference
+    url: https://www.learnworlds.dev/docs/api
+  - type: Documentation
+    url: https://www.learnworlds.dev/docs/api/webhooks
+  - type: Documentation
+    url: >-
+      https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 common:
 - type: AgenticAccess
   url: agentic-access/learnworlds-agentic-access.yml
