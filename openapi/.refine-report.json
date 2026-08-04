@@ -1,0 +1,26 @@
+{
+  "provider": "learnworlds",
+  "sources": [
+    "learnworlds-courses-api-openapi.yml",
+    "learnworlds-enrollments-api-openapi.yml",
+    "learnworlds-payments-api-openapi.yml",
+    "learnworlds-progress-api-openapi.yml",
+    "learnworlds-tags-api-openapi.yml",
+    "learnworlds-users-api-openapi.yml",
+    "learnworlds-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "learnworlds-courses-api-openapi.yml",
+    "learnworlds-enrollments-api-openapi.yml",
+    "learnworlds-payments-api-openapi.yml",
+    "learnworlds-progress-api-openapi.yml",
+    "learnworlds-tags-api-openapi.yml",
+    "learnworlds-users-api-openapi.yml",
+    "learnworlds-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
