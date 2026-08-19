@@ -1,0 +1,679 @@
+{
+  "item": [
+    {
+      "id": "330fb7f6-1f35-407a-a8e1-b1d0154c18e4",
+      "name": "Courses",
+      "description": {
+        "content": "Read the school's courses and their contents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "42c0e64a-ce14-41ff-9861-9c42965fc817",
+          "name": "List courses",
+          "request": {
+            "name": "List courses",
+            "description": {
+              "content": "Lists the school's courses.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "courses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "items_per_page",
+                  "value": "50",
+                  "description": "The number of items to return per page."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                  "type": "any",
+                  "value": "{{school}}",
+                  "key": "school"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fa4cbb72-4493-429d-89b3-f777050215ed",
+              "name": "A paginated list of courses.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "items_per_page",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"access\": \"string\",\n      \"price\": 9225.948407430527,\n      \"courseImage\": \"string\",\n      \"created\": 4778\n    },\n    {\n      \"id\": \"string\",\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"access\": \"string\",\n      \"price\": 8446.510894493356,\n      \"courseImage\": \"string\",\n      \"created\": 9462\n    }\n  ],\n  \"meta\": {\n    \"page\": 832,\n    \"total_items\": 7981,\n    \"items_per_page\": 4754,\n    \"total_pages\": 8505\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "870e6eac-233c-4952-8afb-9709e88f5969",
+              "name": "Missing or invalid access token or Lw-Client header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "items_per_page",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8b89812-9c5e-4c02-8e33-d5f2f291548b",
+          "name": "Get a course",
+          "request": {
+            "name": "Get a course",
+            "description": {
+              "content": "Retrieves a single course by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "courses",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The course identifier."
+                },
+                {
+                  "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                  "type": "any",
+                  "value": "{{school}}",
+                  "key": "school"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0140c3be-e9ed-44a9-9630-3b2b6ab4cdd3",
+              "name": "The requested course.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"access\": \"string\",\n  \"price\": 3098.913769845912,\n  \"courseImage\": \"string\",\n  \"created\": 3340\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ced03bae-e17e-4e65-8e4d-548c52bd7e0a",
+              "name": "Missing or invalid access token or Lw-Client header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48625402-eee7-43de-b062-42ca72eebc42",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3544eaa-02b1-4725-ae24-4ed9803ef6fb",
+          "name": "Get course contents",
+          "request": {
+            "name": "Get course contents",
+            "description": {
+              "content": "Retrieves the sections and learning units that make up a course.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "courses",
+                ":id",
+                "contents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The course identifier."
+                },
+                {
+                  "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                  "type": "any",
+                  "value": "{{school}}",
+                  "key": "school"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d194d4b4-bc5c-4c37-b9ac-69d209e1df34",
+              "name": "The course contents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id",
+                    "contents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 6227.9867552968935\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b879fe39-e66a-43d7-930f-b161e5a92315",
+              "name": "Missing or invalid access token or Lw-Client header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id",
+                    "contents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72700951-bb88-4cb7-a7e6-78f447d34859",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "courses",
+                    ":id",
+                    "contents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The course identifier."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain / school identifier of your LearnWorlds academy.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourschool",
+      "key": "school"
+    },
+    {
+      "type": "string",
+      "value": "https://{{school}}.learnworlds.com/admin/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://yourschool.learnworlds.com/admin/api/oauth2/access_token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4bfa6664-d01d-429e-91bc-c2056cdc2e4a",
+    "name": "LearnWorlds Courses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school's token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.\n\nContact Support:\n Name: LearnWorlds",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "item": [
+    {
+      "id": "b69cc21a-34ad-463a-a20d-0568fc91adca",
+      "name": "Progress",
+      "description": {
+        "content": "Read per-user course progress and completion.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cfd61975-5ea8-4208-b827-a8216f56d11d",
+          "name": "Get a user's progress",
+          "request": {
+            "name": "Get a user's progress",
+            "description": {
+              "content": "Returns the user's progress and completion status across the courses they are enrolled in.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":id",
+                "progress"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The user identifier (LearnWorlds user id or email)."
+                },
+                {
+                  "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                  "type": "any",
+                  "value": "{{school}}",
+                  "key": "school"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a03994e7-bfcc-4f27-90c7-5d2a71a9e5da",
+              "name": "The user's course progress.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":id",
+                    "progress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The user identifier (LearnWorlds user id or email)."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"course_id\": \"string\",\n      \"user_id\": \"string\",\n      \"progress_rate\": 2437.007714749662,\n      \"status\": \"completed\",\n      \"completed_units\": 275,\n      \"total_units\": 1090\n    },\n    {\n      \"course_id\": \"string\",\n      \"user_id\": \"string\",\n      \"progress_rate\": 4773.433335481236,\n      \"status\": \"in_progress\",\n      \"completed_units\": 5774,\n      \"total_units\": 1793\n    }\n  ],\n  \"meta\": {\n    \"page\": 3272,\n    \"total_items\": 7736,\n    \"items_per_page\": 2059,\n    \"total_pages\": 6289\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b242a6a4-85c2-4468-837e-2d6bee75d162",
+              "name": "Missing or invalid access token or Lw-Client header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":id",
+                    "progress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The user identifier (LearnWorlds user id or email)."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7edcd7ab-0820-4349-9185-a6e8b027b1f7",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":id",
+                    "progress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The user identifier (LearnWorlds user id or email)."
+                    },
+                    {
+                      "description": "The subdomain / school identifier of your LearnWorlds academy.",
+                      "type": "any",
+                      "value": "{{school}}",
+                      "key": "school"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"errors\": [\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"code\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The subdomain / school identifier of your LearnWorlds academy.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourschool",
+      "key": "school"
+    },
+    {
+      "type": "string",
+      "value": "https://{{school}}.learnworlds.com/admin/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://yourschool.learnworlds.com/admin/api/oauth2/access_token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3eadffa3-e727-4e5f-82d6-80a217c3aef9",
+    "name": "LearnWorlds Courses Progress API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school's token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.\n\nContact Support:\n Name: LearnWorlds",
+      "type": "text/plain"
+    }
+  }
+}

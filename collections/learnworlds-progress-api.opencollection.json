@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LearnWorlds Courses Progress API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://yourschool.learnworlds.com/admin/api/oauth2/access_token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Progress",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a user's progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{school}.learnworlds.com/admin/api/v2/users/:id/progress",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The user identifier (LearnWorlds user id or email)."
+              }
+            ]
+          },
+          "docs": "Returns the user's progress and completion status across the courses they are enrolled in."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
