@@ -28,6 +28,13 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/learnworld
 tags:
 - Online Courses
 - LMS
+- E-Learning
+- Education
+- Course Platform
+- Creator Economy
+tags_raw:
+- Online Courses
+- LMS
 - eLearning
 - Education
 - Course Platform
@@ -142,6 +149,8 @@ apis:
   humanURL: https://www.learnworlds.dev/docs/api
   baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -162,6 +171,8 @@ apis:
   humanURL: https://www.learnworlds.dev/docs/api
   baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
