@@ -200,6 +200,9 @@ apis:
     url: >-
       https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 common:
+- type: CapabilityMap
+  url: capabilities/learnworlds-capability-edges.yml
+  name: LearnWorlds Business Capability Map
 - type: AgenticAccess
   url: agentic-access/learnworlds-agentic-access.yml
 - type: DomainSecurity
