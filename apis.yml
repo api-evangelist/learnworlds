@@ -11,6 +11,18 @@ description: LearnWorlds is an online course and learning management (LMS) platf
   OAuth2 client credentials (a bearer access token) together with an Lw-Client header
   identifying the client application. API and webhook access is a plan-gated feature
   available on the Learning Center and High Volume & Corporate plans.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
