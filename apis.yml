@@ -81,6 +81,8 @@ apis:
   humanURL: https://www.learnworlds.dev/docs/api
   baseURL: https://{school}.learnworlds.com/admin/api/v2
   tags:
+  - Enrollment
+  tags_raw:
   - Enrollments
   properties:
   - type: OpenAPI
