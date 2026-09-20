@@ -202,6 +202,8 @@ apis:
     url: >-
       https://support.learnworlds.com/support/solutions/articles/12000025878-how-to-use-webhooks
 common:
+- type: Pricing
+  url: https://www.learnworlds.com/pricing/
 - type: CapabilityMap
   url: capabilities/learnworlds-capability-edges.yml
   name: LearnWorlds Business Capability Map

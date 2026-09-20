@@ -1,167 +1,68 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: LearnWorlds
-providerId: learnworlds
-created: '2026-07-05'
-modified: '2026-07-05'
-reconciled: false
-tags:
-- Online Courses
-- LMS
-- eLearning
-- Education
-- Plans
-description: >-
-  LearnWorlds is sold as a SaaS course platform on published monthly tiers, not
-  as a metered API product. There is no separate charge for API calls; instead,
-  API and webhook access is a feature gated to the higher plan tiers. The plans
-  are Starter, Pro Trainer, Learning Center, and High Volume & Corporate. API &
-  Webhooks are included on Learning Center and High Volume & Corporate only.
-  Prices below are USD, exclude VAT, and reflect published pricing as of the
-  review date; the annual price is the effective per-month cost when billed
-  annually. All paid plans include a 30-day free trial.
-notes: >-
-  API access is NOT available on Starter or Pro Trainer. Verify current pricing
-  and plan feature gates on the LearnWorlds pricing page during reconciliation.
-  Payment-gateway fees (e.g. Stripe / PayPal ~2.9% + $0.30) are charged
-  separately by those providers.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.learnworlds.com/pricing/
 sources:
 - https://www.learnworlds.com/pricing/
-- https://support.learnworlds.com/support/solutions/articles/12000017230-learnworlds-api-documentation
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T124425
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+note: Currency symbol not shown on tier prices except '$5/enrollment' in comparison table; annual prices
+  shown with 'Save 20%' toggle. API mentioned only as integration feature, not priced.
+plan_count: 7
 plans:
-- id: learnworlds-starter
-  name: Starter
-  type: paid
-  description: >-
-    Entry plan for individual creators. Does NOT include API or webhook access.
-    Carries a per-course-enrollment transaction fee.
-  entries:
-  - label: Monthly (billed monthly)
-    name: starter_monthly
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '29.00'
-    currency: USD
-    userMultiplied: false
-  - label: Monthly (billed annually)
-    name: starter_annual
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '24.00'
-    currency: USD
-    userMultiplied: false
-  - label: Per-Enrollment Fee
-    name: starter_enrollment_fee
-    type: usage
-    metric: enrollments
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '5.00'
-    currency: USD
-    userMultiplied: false
-  elements:
-  - name: Build and Sell Courses
-  - name: No API Access
-  - name: No Webhook Access
-- id: learnworlds-pro-trainer
-  name: Pro Trainer
-  type: paid
-  description: >-
-    Popular mid-tier plan with no transaction fees. Does NOT include API or
-    webhook access as a standard feature.
-  entries:
-  - label: Monthly (billed monthly)
-    name: pro_monthly
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '99.00'
-    currency: USD
-    userMultiplied: false
-  - label: Monthly (billed annually)
-    name: pro_annual
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '79.00'
-    currency: USD
-    userMultiplied: false
-  elements:
-  - name: No Transaction Fees
-  - name: Unlimited Courses
-  - name: No API Access
-- id: learnworlds-learning-center
-  name: Learning Center
-  type: paid
-  description: >-
-    Higher tier that unlocks API & Webhooks. This is the entry point for
-    programmatic access to the LearnWorlds API.
-  entries:
-  - label: Monthly (billed monthly)
-    name: lc_monthly
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '299.00'
-    currency: USD
-    userMultiplied: false
-  - label: Monthly (billed annually)
-    name: lc_annual
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: '249.00'
-    currency: USD
-    userMultiplied: false
-  elements:
-  - name: API and Webhooks
-  - name: No Transaction Fees
-  - name: Advanced Features
-- id: learnworlds-high-volume
-  name: High Volume & Corporate
-  type: enterprise
-  description: >-
-    Custom-priced plan for high-volume and corporate deployments. Includes
-    everything in Learning Center plus additional enterprise features, with API
-    & Webhooks access.
-  entries:
-  - label: Enterprise Agreement
-    name: high_volume
-    type: flat
-    metric: contract
-    limit: -1
-    timeFrame: year
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-  elements:
-  - name: API and Webhooks
-  - name: Custom Volume
-  - name: Enterprise Support and SLAs
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- name: Starter
+  price_text: 24 /month, billed annually
+  price: 24
+  period: month
+  unit: plan
+  included_quota: 1,000 active learners /month • 1 admin • 300 AI credits /month
+  overage: 5 per paid enrollment
+- name: Starter (monthly)
+  price_text: 29 /month
+  price: 29
+  period: month
+  unit: plan
+  included_quota: 1,000 active learners /month • 1 admin • 300 AI credits /month
+  overage: 5 per paid enrollment
+- name: Pro Trainer
+  price_text: 79 /month, billed annually
+  price: 79
+  period: month
+  unit: plan
+  included_quota: 2,000 active learners /month • 5 admins • 500 AI credits /month
+  overage: No enrollment fees
+- name: Pro Trainer (monthly)
+  price_text: 99 /month
+  price: 99
+  period: month
+  unit: plan
+  included_quota: 2,000 active learners /month • 5 admins • 500 AI credits /month
+  overage: No enrollment fees
+- name: Learning Center
+  price_text: 249 /month, billed annually
+  price: 249
+  period: month
+  unit: plan
+  included_quota: 2,000 active learners /month • 25 admins • 1,000 AI credits /month
+  overage: No enrollment fees
+- name: Learning Center (monthly)
+  price_text: 299 /month
+  price: 299
+  period: month
+  unit: plan
+  included_quota: 2,000 active learners /month • 25 admins • 1,000 AI credits /month
+  overage: No enrollment fees
+- name: Corporate
+  price_text: Custom
+  period: none
+  included_quota: Custom active learners /month • Custom no. of admins & client groups • Custom AI credits
+    /month
+rate_limit_statements:
+- Monthly active learners 1,000 2,000 2,000 Custom
+- Mass email credits / month 2,000 5,000 10,000
+- SCORM & HTML5 20 packages Unlimited Unlimited
