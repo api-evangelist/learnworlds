@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: LearnWorlds Courses Payments API
-  description: 'The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform. It exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, certificates, and webhooks - over HTTPS. The API is served per-school from https://{school}.learnworlds.com/admin/api/v2 and is authenticated with OAuth2 (client credentials): a bearer access token is obtained from the school''s token endpoint and every request also carries the Lw-Client header identifying the client (school) application. API and Webhook access is a plan-gated feature (Learning Center and High Volume & Corporate plans). Version 1 of the API is deprecated. Exact request/response schemas and the full endpoint catalog live in the official reference at learnworlds.dev; the paths modeled here are grounded in the public documentation, help center, and the official API wrapper, and should be reconciled against the live reference.'
+  title: LearnWorlds Payments API
+  description: The LearnWorlds API (v2) is a REST API for programmatically managing an online school on the LearnWorlds course / LMS platform.
   version: '2.0'
   contact:
     name: LearnWorlds
@@ -63,6 +63,27 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        products:
+          type: array
+          description: Products included in the payment (cart orders and bundle purchases can include several).
+          items:
+            type: object
+            additionalProperties: true
+        gateway:
+          type: string
+        created:
+          type: integer
     PaymentList:
       type: object
       properties:
@@ -87,36 +108,6 @@ components:
                 type: string
               message:
                 type: string
-    SubscriptionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subscription'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-        user_id:
-          type: string
-        amount:
-          type: number
-        currency:
-          type: string
-        products:
-          type: array
-          description: Products included in the payment (cart orders and bundle purchases can include several).
-          items:
-            type: object
-            additionalProperties: true
-        gateway:
-          type: string
-        created:
-          type: integer
     Subscription:
       type: object
       properties:
@@ -137,6 +128,15 @@ components:
           type: integer
         created:
           type: integer
+    SubscriptionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     Pagination:
       type: object
       properties:

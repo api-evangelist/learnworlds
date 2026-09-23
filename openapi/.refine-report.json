@@ -1,13 +1,7 @@
 {
   "provider": "learnworlds",
   "sources": [
-    "learnworlds-courses-api-openapi.yml",
-    "learnworlds-enrollments-api-openapi.yml",
-    "learnworlds-payments-api-openapi.yml",
-    "learnworlds-progress-api-openapi.yml",
-    "learnworlds-tags-api-openapi.yml",
-    "learnworlds-users-api-openapi.yml",
-    "learnworlds-webhooks-api-openapi.yml"
+    "_original/learnworlds-openapi.yml"
   ],
   "outputs": [
     "learnworlds-courses-api-openapi.yml",
@@ -21,6 +15,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "learnworlds-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "learnworlds-courses-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-enrollments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-payments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-progress-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "learnworlds-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
