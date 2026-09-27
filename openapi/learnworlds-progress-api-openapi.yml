@@ -54,21 +54,6 @@ components:
             $ref: '#/components/schemas/Progress'
         meta:
           $ref: '#/components/schemas/Pagination'
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
     Progress:
       type: object
       properties:
@@ -100,6 +85,21 @@ components:
           type: integer
         total_pages:
           type: integer
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
   responses:
     NotFound:
       description: The requested resource was not found.

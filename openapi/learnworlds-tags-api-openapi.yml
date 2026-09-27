@@ -87,21 +87,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    GenericSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    TagInput:
-      type: object
-      required:
-      - tags
-      properties:
-        tags:
-          type: array
-          items:
-            type: string
     Error:
       type: object
       properties:
@@ -117,6 +102,21 @@ components:
                 type: string
               message:
                 type: string
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+    TagInput:
+      type: object
+      required:
+      - tags
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
   parameters:
     UserId:
       name: id

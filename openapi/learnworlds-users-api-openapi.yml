@@ -111,25 +111,6 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     ItemsPerPage:
       name: items_per_page
@@ -154,7 +135,77 @@ components:
       description: The user identifier (LearnWorlds user id or email).
       schema:
         type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserInput'
+      - type: object
+        properties:
+          id:
+            type: string
+          created:
+            type: integer
+            description: Unix timestamp of user creation.
+          is_admin:
+            type: boolean
+          tags:
+            type: array
+            items:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    UserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     UserInput:
       type: object
       required:
@@ -178,57 +229,6 @@ components:
         fields:
           type: object
           additionalProperties: true
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserInput'
-      - type: object
-        properties:
-          id:
-            type: string
-          created:
-            type: integer
-            description: Unix timestamp of user creation.
-          is_admin:
-            type: boolean
-          tags:
-            type: array
-            items:
-              type: string
-    UserList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

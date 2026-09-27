@@ -94,61 +94,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    ItemsPerPage:
-      name: items_per_page
-      in: query
-      required: false
-      description: The number of items to return per page.
-      schema:
-        type: integer
-        default: 50
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number to retrieve.
-      schema:
-        type: integer
-        default: 1
   schemas:
-    CourseList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Course'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
     Course:
       type: object
       properties:
@@ -178,6 +124,60 @@ components:
           type: integer
         total_pages:
           type: integer
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    CourseList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+  parameters:
+    ItemsPerPage:
+      name: items_per_page
+      in: query
+      required: false
+      description: The number of items to return per page.
+      schema:
+        type: integer
+        default: 50
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve.
+      schema:
+        type: integer
+        default: 1
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

@@ -109,36 +109,6 @@ components:
           type: boolean
         created:
           type: integer
-    GenericSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-    EnrollmentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Enrollment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     EnrollmentInput:
       type: object
       required:
@@ -173,6 +143,36 @@ components:
           type: integer
         total_pages:
           type: integer
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    EnrollmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enrollment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
   responses:
     NotFound:
       description: The requested resource was not found.

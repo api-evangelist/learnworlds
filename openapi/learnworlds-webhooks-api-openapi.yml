@@ -100,14 +100,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
@@ -122,27 +122,6 @@ components:
             type: string
           active:
             type: boolean
-    GenericSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    WebhookInput:
-      type: object
-      required:
-      - endpoint
-      - triggers
-      properties:
-        endpoint:
-          type: string
-          format: uri
-          description: The URL LearnWorlds POSTs event payloads to.
-        triggers:
-          type: array
-          description: The event types this webhook subscribes to.
-          items:
-            type: string
     Error:
       type: object
       properties:
@@ -158,6 +137,27 @@ components:
                 type: string
               message:
                 type: string
+    WebhookInput:
+      type: object
+      required:
+      - endpoint
+      - triggers
+      properties:
+        endpoint:
+          type: string
+          format: uri
+          description: The URL LearnWorlds POSTs event payloads to.
+        triggers:
+          type: array
+          description: The event types this webhook subscribes to.
+          items:
+            type: string
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2
