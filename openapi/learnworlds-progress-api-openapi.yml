@@ -45,6 +45,32 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
     ProgressList:
       type: object
       properties:
@@ -74,41 +100,15 @@ components:
           type: integer
         total_units:
           type: integer
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:

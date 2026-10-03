@@ -135,26 +135,30 @@ components:
       description: The user identifier (LearnWorlds user id or email).
       schema:
         type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    UserInput:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        password:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        fields:
+          type: object
+          additionalProperties: true
     Pagination:
       type: object
       properties:
@@ -166,22 +170,6 @@ components:
           type: integer
         total_pages:
           type: integer
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserInput'
-      - type: object
-        properties:
-          id:
-            type: string
-          created:
-            type: integer
-            description: Unix timestamp of user creation.
-          is_admin:
-            type: boolean
-          tags:
-            type: array
-            items:
-              type: string
     Error:
       type: object
       properties:
@@ -206,29 +194,41 @@ components:
             $ref: '#/components/schemas/User'
         meta:
           $ref: '#/components/schemas/Pagination'
-    UserInput:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-          format: email
-        username:
-          type: string
-        password:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        tags:
-          type: array
-          items:
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserInput'
+      - type: object
+        properties:
+          id:
             type: string
-        fields:
-          type: object
-          additionalProperties: true
+          created:
+            type: integer
+            description: Unix timestamp of user creation.
+          is_admin:
+            type: boolean
+          tags:
+            type: array
+            items:
+              type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

@@ -80,6 +80,32 @@ components:
         type: integer
         default: 1
   schemas:
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
     Payment:
       type: object
       properties:
@@ -101,17 +127,6 @@ components:
           type: string
         created:
           type: integer
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
     Subscription:
       type: object
       properties:
@@ -132,30 +147,6 @@ components:
           type: integer
         created:
           type: integer
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-    SubscriptionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subscription'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     PaymentList:
       type: object
       properties:
@@ -163,6 +154,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Payment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    SubscriptionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
         meta:
           $ref: '#/components/schemas/Pagination'
   responses:

@@ -73,20 +73,13 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    GenericSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
     Error:
       type: object
       properties:
@@ -102,12 +95,6 @@ components:
                 type: string
               message:
                 type: string
-    GenericSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
     TagInput:
       type: object
       required:
@@ -117,6 +104,19 @@ components:
           type: array
           items:
             type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     UserId:
       name: id
