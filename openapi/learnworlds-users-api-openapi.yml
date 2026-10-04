@@ -111,30 +111,25 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
-  parameters:
-    ItemsPerPage:
-      name: items_per_page
-      in: query
-      required: false
-      description: The number of items to return per page.
-      schema:
-        type: integer
-        default: 50
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number to retrieve.
-      schema:
-        type: integer
-        default: 1
-    UserId:
-      name: id
-      in: path
-      required: true
-      description: The user identifier (LearnWorlds user id or email).
-      schema:
-        type: string
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     UserInput:
       type: object
@@ -159,17 +154,6 @@ components:
         fields:
           type: object
           additionalProperties: true
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
     Error:
       type: object
       properties:
@@ -210,25 +194,41 @@ components:
             type: array
             items:
               type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve.
+      schema:
+        type: integer
+        default: 1
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
+    ItemsPerPage:
+      name: items_per_page
+      in: query
+      required: false
+      description: The number of items to return per page.
+      schema:
+        type: integer
+        default: 50
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

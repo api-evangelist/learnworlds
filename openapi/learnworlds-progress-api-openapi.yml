@@ -44,7 +44,57 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
   schemas:
+    Progress:
+      type: object
+      properties:
+        course_id:
+          type: string
+        user_id:
+          type: string
+        progress_rate:
+          type: number
+          description: Completion percentage for the course (0-100).
+        status:
+          type: string
+          enum:
+          - not_started
+          - in_progress
+          - completed
+        completed_units:
+          type: integer
+        total_units:
+          type: integer
+    ProgressList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Progress'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     Error:
       type: object
       properties:
@@ -71,56 +121,6 @@ components:
           type: integer
         total_pages:
           type: integer
-    ProgressList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Progress'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Progress:
-      type: object
-      properties:
-        course_id:
-          type: string
-        user_id:
-          type: string
-        progress_rate:
-          type: number
-          description: Completion percentage for the course (0-100).
-        status:
-          type: string
-          enum:
-          - not_started
-          - in_progress
-          - completed
-        completed_units:
-          type: integer
-        total_units:
-          type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    UserId:
-      name: id
-      in: path
-      required: true
-      description: The user identifier (LearnWorlds user id or email).
-      schema:
-        type: string
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2
