@@ -62,61 +62,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number to retrieve.
-      schema:
-        type: integer
-        default: 1
-    ItemsPerPage:
-      name: items_per_page
-      in: query
-      required: false
-      description: The number of items to return per page.
-      schema:
-        type: integer
-        default: 50
   schemas:
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-        user_id:
-          type: string
-        amount:
-          type: number
-        currency:
-          type: string
-        products:
-          type: array
-          description: Products included in the payment (cart orders and bundle purchases can include several).
-          items:
-            type: object
-            additionalProperties: true
-        gateway:
-          type: string
-        created:
-          type: integer
-    PaymentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Payment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     Subscription:
       type: object
       properties:
@@ -152,6 +98,27 @@ components:
                 type: string
               message:
                 type: string
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        products:
+          type: array
+          description: Products included in the payment (cart orders and bundle purchases can include several).
+          items:
+            type: object
+            additionalProperties: true
+        gateway:
+          type: string
+        created:
+          type: integer
     Pagination:
       type: object
       properties:
@@ -163,6 +130,15 @@ components:
           type: integer
         total_pages:
           type: integer
+    PaymentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     SubscriptionList:
       type: object
       properties:
@@ -172,6 +148,30 @@ components:
             $ref: '#/components/schemas/Subscription'
         meta:
           $ref: '#/components/schemas/Pagination'
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ItemsPerPage:
+      name: items_per_page
+      in: query
+      required: false
+      description: The number of items to return per page.
+      schema:
+        type: integer
+        default: 50
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve.
+      schema:
+        type: integer
+        default: 1
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

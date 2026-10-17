@@ -73,27 +73,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    UserId:
-      name: id
-      in: path
-      required: true
-      description: The user identifier (LearnWorlds user id or email).
-      schema:
-        type: string
   schemas:
     Error:
       type: object
@@ -125,6 +104,27 @@ components:
         success:
           type: boolean
           example: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

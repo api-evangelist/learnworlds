@@ -95,24 +95,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Course:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        access:
-          type: string
-          description: Access model for the course (free, paid, subscription, etc).
-        price:
-          type: number
-        courseImage:
-          type: string
-        created:
-          type: integer
     Error:
       type: object
       properties:
@@ -139,6 +121,24 @@ components:
           type: integer
         total_pages:
           type: integer
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        access:
+          type: string
+          description: Access model for the course (free, paid, subscription, etc).
+        price:
+          type: number
+        courseImage:
+          type: string
+        created:
+          type: integer
     CourseList:
       type: object
       properties:
@@ -162,14 +162,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number to retrieve.
-      schema:
-        type: integer
-        default: 1
     ItemsPerPage:
       name: items_per_page
       in: query
@@ -178,6 +170,14 @@ components:
       schema:
         type: integer
         default: 50
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number to retrieve.
+      schema:
+        type: integer
+        default: 1
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

@@ -95,34 +95,42 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    UserId:
-      name: id
-      in: path
-      required: true
-      description: The user identifier (LearnWorlds user id or email).
-      schema:
-        type: string
   schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+    EnrollmentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enrollment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     EnrollmentInput:
       type: object
       required:
@@ -146,21 +154,12 @@ components:
           description: Optional reason recorded for the manual enrollment.
         send_enrollment_email:
           type: boolean
-    Error:
+    GenericSuccess:
       type: object
       properties:
         success:
           type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
+          example: true
     Enrollment:
       type: object
       properties:
@@ -174,32 +173,33 @@ components:
           type: boolean
         created:
           type: integer
-    GenericSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
-    EnrollmentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Enrollment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: The user identifier (LearnWorlds user id or email).
+      schema:
+        type: string
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

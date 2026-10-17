@@ -93,41 +93,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid access token or Lw-Client header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    WebhookInput:
-      type: object
-      required:
-      - endpoint
-      - triggers
-      properties:
-        endpoint:
-          type: string
-          format: uri
-          description: The URL LearnWorlds POSTs event payloads to.
-        triggers:
-          type: array
-          description: The event types this webhook subscribes to.
-          items:
-            type: string
     Error:
       type: object
       properties:
@@ -149,6 +115,21 @@ components:
         success:
           type: boolean
           example: true
+    WebhookInput:
+      type: object
+      required:
+      - endpoint
+      - triggers
+      properties:
+        endpoint:
+          type: string
+          format: uri
+          description: The URL LearnWorlds POSTs event payloads to.
+        triggers:
+          type: array
+          description: The event types this webhook subscribes to.
+          items:
+            type: string
     Webhook:
       allOf:
       - $ref: '#/components/schemas/WebhookInput'
@@ -158,6 +139,25 @@ components:
             type: string
           active:
             type: boolean
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token or Lw-Client header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2

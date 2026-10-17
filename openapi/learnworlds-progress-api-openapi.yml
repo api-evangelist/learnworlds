@@ -44,6 +44,62 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    Progress:
+      type: object
+      properties:
+        course_id:
+          type: string
+        user_id:
+          type: string
+        progress_rate:
+          type: number
+          description: Completion percentage for the course (0-100).
+        status:
+          type: string
+          enum:
+          - not_started
+          - in_progress
+          - completed
+        completed_units:
+          type: integer
+        total_units:
+          type: integer
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        total_items:
+          type: integer
+        items_per_page:
+          type: integer
+        total_pages:
+          type: integer
+    ProgressList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Progress'
+        meta:
+          $ref: '#/components/schemas/Pagination'
   responses:
     Unauthorized:
       description: Missing or invalid access token or Lw-Client header.
@@ -65,62 +121,6 @@ components:
       description: The user identifier (LearnWorlds user id or email).
       schema:
         type: string
-  schemas:
-    Progress:
-      type: object
-      properties:
-        course_id:
-          type: string
-        user_id:
-          type: string
-        progress_rate:
-          type: number
-          description: Completion percentage for the course (0-100).
-        status:
-          type: string
-          enum:
-          - not_started
-          - in_progress
-          - completed
-        completed_units:
-          type: integer
-        total_units:
-          type: integer
-    ProgressList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Progress'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
-    Pagination:
-      type: object
-      properties:
-        page:
-          type: integer
-        total_items:
-          type: integer
-        items_per_page:
-          type: integer
-        total_pages:
-          type: integer
   securitySchemes:
     oauth2ClientCredentials:
       type: oauth2
