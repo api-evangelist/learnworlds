@@ -1,4 +1,4 @@
-# LearnWorlds (learnworlds)
+# LearnWorlds
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,119 +64,136 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-LearnWorlds is an online course and learning management (LMS) platform that lets creators, trainers, and businesses build, sell, and run their own branded online schools. Its REST API (v2) exposes the school's core entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, and certificates - plus webhooks for real-time events.
+LearnWorlds is an online course and learning management (LMS) platform that lets creators, trainers, and businesses build, sell, and run branded online schools. Its REST API (v2) is served per-school from https://{school}.learnworlds.com/admin/api/v2 and exposes school entities - users, courses, enrollments, subscriptions, payments, course progress, tags, bundles, and certificates - plus webhooks for real-time events. Requests are authenticated with OAuth2 client credentials (a bearer access token) together with an Lw-Client header identifying the client application. API and webhook access is a plan-gated feature available on the Learning Center and High Volume & Corporate plans.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/learnworlds/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/learnworlds/refs/heads/main/apis.yml)
+**Areas:** Online Courses · LMS · E-Learning · Education · Course Platform · Creator Economy
 
-## Access Model (Read This First)
+## LearnWorlds on APIs.io
 
-- **Per-school base URL.** The API is served from each school's own subdomain: `https://{school}.learnworlds.com/admin/api/v2`. There is no single global API host - every request targets your academy's domain.
-- **OAuth2 client credentials.** You obtain a `client_id` and `client_secret` from the school admin under **Settings → Developers → API**, then exchange them for a bearer access token at `https://{school}.learnworlds.com/admin/api/oauth2/access_token` (`grant_type=client_credentials`).
-- **Two things on every request.** Requests carry both the `Authorization: Bearer ACCESS_TOKEN` header and an `Lw-Client` header whose value is your `client_id`.
-- **Plan-gated.** API & Webhooks are **not** included on the entry-level plans. Programmatic access requires the **Learning Center** or **High Volume & Corporate** plan. The Starter and Pro Trainer plans do not include API access as a standard feature.
-- **Version 2 only.** API v1 is deprecated and no longer supported.
-- **No public WebSocket API.** Real-time event delivery is via outbound webhooks (signed with a `Learnworlds-Webhook-Signature` header and retried on failure), not a client-facing WebSocket or SSE stream. See [review.yml](review.yml).
+Everything profiled for LearnWorlds is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/learnworlds/](https://apis.io/providers/learnworlds/)** — or go straight to one of the APIs or properties below.
 
-> Note on grounding: LearnWorlds' full API reference is published as a JavaScript-rendered Stoplight portal at [learnworlds.dev](https://www.learnworlds.dev/docs/api), which is not directly machine-readable. The endpoints modeled in `openapi/learnworlds-openapi.yml` are grounded in the public help center, the official developer documentation, and the official API wrapper, and should be reconciled field-by-field against the live reference before production use.
+### APIs (7)
 
-## Tags
+- [LearnWorlds Courses API](https://apis.io/apis/learnworlds/learnworlds-courses-api/) — Read the school's courses and their contents.
+- [LearnWorlds Enrollments API](https://apis.io/apis/learnworlds/learnworlds-enrollments-api/) — Enroll and unenroll users on courses, bundles, and subscriptions.
+- [LearnWorlds Payments API](https://apis.io/apis/learnworlds/learnworlds-payments-api/) — Read payments, subscriptions, and transactions.
+- [LearnWorlds Progress API](https://apis.io/apis/learnworlds/learnworlds-progress-api/) — Read per-user course progress and completion.
+- [LearnWorlds Tags API](https://apis.io/apis/learnworlds/learnworlds-tags-api/) — List tags and attach / detach them from users.
+- [LearnWorlds Users API](https://apis.io/apis/learnworlds/learnworlds-users-api/) — Manage school users (students / members) and their profiles.
+- [LearnWorlds Webhooks API](https://apis.io/apis/learnworlds/learnworlds-webhooks-api/) — Manage webhook subscriptions for school events.
 
-- Online Courses
-- LMS
-- eLearning
-- Education
-- Course Platform
-- Creator Economy
+### Published properties
 
-## Timestamps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Created:** 2026-07-05
-- **Modified:** 2026-07-05
+#### Agentic access (1)
 
-## APIs
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### LearnWorlds Users API
+- [Learnworlds Agentic Access](https://apis.io/agentic-access/learnworlds/learnworlds-agentic-access/)
 
-Create, read, update, and list school users (students / members), manage their profile fields, and attach or detach tags. Users are the core identity entity that enrollments, progress, and payments are scoped to.
+#### Collections (8)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+Postman and Open Collection request collections.
 
-### LearnWorlds Courses API
+- [LearnWorlds API](https://apis.io/collections/learnworlds/open-learnworlds/)
+- [LearnWorlds Courses API](https://apis.io/collections/learnworlds/open-learnworlds-courses-api/)
+- [LearnWorlds Courses Enrollments API](https://apis.io/collections/learnworlds/open-learnworlds-enrollments-api/)
+- [LearnWorlds Courses Payments API](https://apis.io/collections/learnworlds/open-learnworlds-payments-api/)
+- [LearnWorlds Courses Progress API](https://apis.io/collections/learnworlds/open-learnworlds-progress-api/)
+- [LearnWorlds Courses Tags API](https://apis.io/collections/learnworlds/open-learnworlds-tags-api/)
+- [LearnWorlds Courses Users API](https://apis.io/collections/learnworlds/open-learnworlds-users-api/)
+- [LearnWorlds Courses Webhooks API](https://apis.io/collections/learnworlds/open-learnworlds-webhooks-api/)
 
-List the school's courses, retrieve a single course, and read a course's sections and learning units. Courses are the primary sellable product in a LearnWorlds school.
+#### Security (2)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+Authentication, trust centre, and vulnerability disclosure.
 
-### LearnWorlds Enrollments API
+- [Learnworlds Authentication](https://apis.io/security/learnworlds/learnworlds-authentication/)
+- [Learnworlds Domain Security](https://apis.io/security/learnworlds/learnworlds-domain-security/)
 
-Enroll and unenroll users on products - courses, bundles, and subscriptions - and list a user's current enrollments. Supports recording a price and justification for manual enrollments.
+#### OAuth scopes (1)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+The permissions the API asks for.
 
-### LearnWorlds Payments API
+- [Learnworlds Scopes](https://apis.io/scopes/learnworlds/learnworlds-scopes/)
 
-Read payment transactions and subscriptions for the school. A payment can include multiple products (cart orders and bundle purchases); subscriptions carry status and billing-period detail.
+#### Plans and pricing (1)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+Published plans, tiers and prices.
 
-### LearnWorlds Progress API
+- [Learnworlds Plans Pricing](https://apis.io/plans/learnworlds/learnworlds-plans-pricing/)
 
-Read per-user course progress and completion status across the courses a user is enrolled in, for reporting and downstream analytics.
+#### Rate limits (1)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+Published request limits.
 
-### LearnWorlds Tags API
+- [Learnworlds Rate Limits](https://apis.io/rate-limits/learnworlds/learnworlds-rate-limits/)
 
-Attach and detach tags on users to segment audiences for automations, reporting, and targeted access. Tags are a lightweight labeling primitive across the school.
+#### FinOps (1)
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api](https://www.learnworlds.dev/docs/api)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+What the API costs to run, by operation.
 
-### LearnWorlds Webhooks API
+- [Learnworlds Finops](https://apis.io/finops/learnworlds/learnworlds-finops/)
 
-Create, list, and delete webhook subscriptions that POST event payloads (user registration, enrollment, course completion, certificate awarded, payment created, subscription events, tag changes, and more) to a target URL. Payloads are signed with a `Learnworlds-Webhook-Signature` header and retried on failure.
+## Where to find this API
 
-- **Human URL:** [https://www.learnworlds.dev/docs/api/webhooks](https://www.learnworlds.dev/docs/api/webhooks)
-- **Base URL:** `https://{school}.learnworlds.com/admin/api/v2`
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-## Authentication
-
-```
-POST https://{school}.learnworlds.com/admin/api/oauth2/access_token
-Content-Type: application/x-www-form-urlencoded
-Lw-Client: YOUR_CLIENT_ID
-
-client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=client_credentials
-```
-
-Use the returned `access_token` on every request:
-
-```
-GET https://{school}.learnworlds.com/admin/api/v2/users
-Authorization: Bearer ACCESS_TOKEN
-Lw-Client: YOUR_CLIENT_ID
-```
-
-## Rate Limits
-
-LearnWorlds throttles API requests at approximately **30 requests / 10 seconds**. Throttled requests return HTTP 429; clients should back off and retry. See [rate-limits/learnworlds-rate-limits.yml](rate-limits/learnworlds-rate-limits.yml).
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/learnworlds)
 - [Website](https://www.learnworlds.com)
 - [Documentation](https://www.learnworlds.dev/docs/api)
-- [Plans](plans/learnworlds-plans-pricing.yml)
-- [Rate Limits](rate-limits/learnworlds-rate-limits.yml)
-- [Fin Ops](finops/learnworlds-finops.yml)
+- [Pricing](https://www.learnworlds.com/pricing/)
 - [Blog](https://www.learnworlds.com/blog/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 48.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 14.3 |
+| Access clarity | 42.1 |
+
+**Agent readiness 20.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 21.6** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/learnworlds/](https://apis.io/providers/learnworlds/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for LearnWorlds: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/learnworlds/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
